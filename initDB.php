@@ -1,4 +1,3 @@
-
 <?php
 #turn error reporting on
 ini_set('display_errors',1);
@@ -11,12 +10,30 @@ echo $host;
 $connection_string = "mysql:host=$host;dbname=$database;username=$username;password=$password;charset=utf8mb4";
 
 try{
+	foreach(glob("sql/*.sql") as $filename){
+		//echo $filename;
+		$sql[$filename] = file_get_contents($filename);
+		//echo $sql[$filename];
+	}
+	ksort($sql);
+
+	// Connect to DB
 	$db = new PDO($connection_string, $username, $password);
-	echo "Should have connected";
+	
+	foreach($sql as $key => $value){
+		echo "<br>Running: " . $key;
+		$stmt = $db->prepare($value);
+		$result = $stmt->execute();
+		$error = $stmt->errorInfo();
+		if($error && $error[0] !== '00000'){
+			echo "<br>Error:<pre>" . var_export($error,true) . "</pre><br>";
+		}
+		echo "<br>$key result: " . ($result>0?"Success":"Fail") . "<br>";
+	}
 }
 catch(Exception $e){
 	echo $e->getMessage();
-	exit("It didn't work");
+	exit("Something went wrong");
 }
 
 ?>
