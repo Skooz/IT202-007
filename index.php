@@ -1,8 +1,11 @@
 <html>
+
 <head>
 	<script>
 	function mySamples(){
-		//var myVar = 10;
+		
+    /*
+    //var myVar = 10;
 		//alert("My var is " + myVar);
 		console.log("Hello world");
 	
@@ -23,19 +26,22 @@
 		myParagraph.innerText += (number1+number2);
 		console.log(myParagraph);
 		//let myPar2 = myParagraph;
+   */
 		
 		//Google/Explore how to create an element and add it to the DOM
-   var myDiv = document.createElement("div");
+    var myDiv = document.createElement("div");
 		//create a div tag, add "added new element" as the text
-   myDiv.innerHTML = "New element added!";
+    myDiv.innerHTML = "New element added!";
 		//add it to the DOM body
-   myParagraph.appendChild(myDiv);
+    document.body.appendChild(myDiv);
 	}
 	</script>
 </head>
+
 <body onload="mySamples();">
 	<p id="myPara">Just showing that we loaded something...</p>
 </body>
+
 </html>
 
 <?php
