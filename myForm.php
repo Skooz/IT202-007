@@ -16,9 +16,6 @@
 
 <?php
 
-$pass  = isset($_GET['password']);
-$cpass = isset($_GET['confirmpassword']);
-
 if( isset($_GET['password']) and isset($_GET['confirmpassword']) and $_GET['password'] == $_GET['confirmpassword'] ){
   echo "<br><pre>" . var_export($_GET, true) . "</pre><br>";
 } elseif (isset($_GET['password']) and isset($_GET['confirmpassword']) and $_GET['password'] != $_GET['confirmpassword']){
