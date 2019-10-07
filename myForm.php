@@ -1,17 +1,7 @@
-<?php
-//helper
-function getName(){
-  if(isset($_GET['name'])){
-    echo "<p>Hello, " . $_GET['name'] . "</p>";
-  }
-}
-?>
-
 
 <html>
   <head></head>
   <body>
-  <?php getName();?>
     <form mode="GET" action="#">
     <input name="username" type="text" placeholder="Enter your username"/>
     <input name="password" type="password" placeholder="Enter a password"/>
@@ -25,8 +15,10 @@ function getName(){
 
 
 <?php
+
 $pass  = isset($_GET['password']);
 $cpass = isset($_GET['confirmpassword']);
+
 if( isset($_GET['password']) and isset($_GET['confirmpassword']) and $_GET['password'] == $_GET['confirmpassword'] ){
   echo "<br><pre>" . var_export($_GET, true) . "</pre><br>";
 } elseif (isset($_GET['password']) and isset($_GET['confirmpassword']) and $_GET['password'] != $_GET['confirmpassword']){
@@ -34,4 +26,5 @@ if( isset($_GET['password']) and isset($_GET['confirmpassword']) and $_GET['pass
 } else {
   echo "Please enter a username and password.";
 }
+
 ?>
