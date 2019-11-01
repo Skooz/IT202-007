@@ -1,2 +1,2 @@
-INSERT INTO `TestUsers`( `username`, `pin` )
-		VALUES ('test', 1234);
+INSERT INTO `Accounts`( `username`, `pass` )
+		VALUES ('userTest', 'passTest');

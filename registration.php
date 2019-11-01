@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+
+// Check passwords
 <?php
+
 ini_set('display_errors',1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -17,6 +20,7 @@ function checkPasswords(){
 
 <html>
 <head>
+
 <script>
 function validate(){
 	var form = document.forms[0];
@@ -72,6 +76,7 @@ function validate(){
 	return succeeded;	
 }
 </script>
+
 <style>
 input { border: 1px solid black; }
 .error {border: 1px solid red;}
