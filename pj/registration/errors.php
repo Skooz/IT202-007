@@ -1,4 +1,5 @@
 <?php
+// Handles \ displays any errors pushed to the errors array.
 // Used "https://codewithawa.com/posts/complete-user-registration-system-using-php-and-mysql-database" as a resource.
   if (count($errors) > 0) : ?>
   <div class="error">

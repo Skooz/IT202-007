@@ -1,4 +1,5 @@
 <?php
+// Server.php handles forms for registration and login, and connection to the database
 // Used "https://codewithawa.com/posts/complete-user-registration-system-using-php-and-mysql-database" as a resource.
 
 session_start();
@@ -10,7 +11,7 @@ $errors = array();
 
 // establish connection with database
 require('config.php');
-$db = mysqli_connect($host, $username, $password, $database);
+$db = mysqli_connect($host, $dbUsername, $dbPassword, $database);
 
 // REGISTER USER
 if (isset($_POST['reg_user'])) {
@@ -24,9 +25,7 @@ if (isset($_POST['reg_user'])) {
   if (empty($username))   { array_push($errors, "Username is required"); }
   if (empty($email))      { array_push($errors, "Email is required"); }
   if (empty($password_1)) { array_push($errors, "Password is required"); }
-  if ($password_1 != $password_2) {
-	array_push($errors, "The two passwords do not match");
-  }
+  if ($password_1 != $password_2) { array_push($errors, "The two passwords do not match"); }
 
   // check database for existing users
   $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
@@ -50,7 +49,7 @@ if (isset($_POST['reg_user'])) {
   			  VALUES('$username', '$email', '$password')";
   	mysqli_query($db, $query);
   	$_SESSION['username'] = $username;
-  	$_SESSION['success'] = "You are now logged in";
+  	$_SESSION['success']  = "You are now logged in";
   	header('location: index.php');
   }
 }

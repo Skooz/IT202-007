@@ -1,10 +1,11 @@
 <?php include('server.php') 
+// Login page. Form for logging in.
 // Used "https://codewithawa.com/posts/complete-user-registration-system-using-php-and-mysql-database" as a resource.
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Registration system PHP and MySQL</title>
+  <title>Login</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
