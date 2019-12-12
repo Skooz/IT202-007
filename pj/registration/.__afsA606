@@ -1,0 +1,7 @@
+<?php
+// Database information
+$host="sql1.njit.edu";
+$database="cmh52";
+$dbUsername="cmh52";
+$dbPassword="yxc8H7OiB";
+?>

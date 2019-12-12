@@ -39,11 +39,14 @@
       </div>
   	<?php endif ?>
 
-    <!-- logged in user information -->
+    <!-- Main page -->
     <?php  if (isset($_SESSION['username'])) : ?>
-    	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
+    	<p>
+      <strong><a class="btn" href="profiles.php"><?php echo $_SESSION['username']; ?></a></strong>
+      <strong><a class="btn" href="Leaderboard.php">Leaderboard</a></strong>
+      </p>
      
-        
+       <!-- The game! -->
         <head>
           <meta charset="utf-8">
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -67,7 +70,7 @@
         </body>
 
      
-    	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
+    	<p> <a class="btn" href="index.php?logout='1'" style="color: cyan;">logout</a> </p>
     <?php endif ?>
 </div>
 		

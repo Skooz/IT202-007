@@ -4,18 +4,16 @@ using System;
 
 public class HighScore : MonoBehaviour
 {
-    // https://gamedevelopment.tutsplus.com/tutorials/how-to-code-a-self-hosted-phpsql-leaderboard-for-your-game--gamedev-11627
+    // Reference: https://gamedevelopment.tutsplus.com/tutorials/how-to-code-a-self-hosted-phpsql-leaderboard-for-your-game--gamedev-11627
 
     //The GUI Text object we're going to base everything off.
     public GameObject BaseGUIText;
 
-    ///Fill in your server data here.
-    private string privateKey = "j9ukxS6l4c";
+    ///Server data here.
+    private string privateKey = "j9ukxS6l4c"; // This MUST be the same as the key in AddScore.php for verification.
     private string TopScoresURL = "https://web.njit.edu/~cmh52/IT202-007/pj/registration/TopScores.php";
-
-    //Don't forget the question marks!
-    private string AddScoreURL = "https://web.njit.edu/~cmh52/IT202-007/pj/registration/AddScore.php?";
-    private string RankURL     = "https://web.njit.edu/~cmh52/IT202-007/pj/registration/GetRank.php?";
+    private string AddScoreURL  = "https://web.njit.edu/~cmh52/IT202-007/pj/registration/AddScore.php?";
+    private string RankURL      = "https://web.njit.edu/~cmh52/IT202-007/pj/registration/GetRank.php?";
 
     //The score and username we submit
     private int highscore;
@@ -25,25 +23,27 @@ public class HighScore : MonoBehaviour
     //We use this to allow the user to start the game again.
     private bool pressspace;
 
-    ///Our public access functions
+    // Called on start
+    void Start()
+    {
+        //Disable the ability to click and change the counter
+        GetComponent<ClickTimes>().enabled = false;
+    }
+
+    //Our public access functions
     public void Setscore(int givenscore)
     {
         highscore = givenscore;
     }
 
-    public void SetName(string givenname)
-    {
-        username = givenname;
-    }
-
-    //Our standard Unity functions
-    //Called as soon as the class is activated.
+    // Called as soon as the class is activated.
     void OnEnable()
     {
         pressspace = false; // The user can't press space yet.
-        StartCoroutine(AddScore(username, highscore)); // We post our scores.
+        StartCoroutine(AddScore(highscore)); // We post our scores.
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (pressspace && Input.GetKeyUp(KeyCode.Space))
@@ -52,7 +52,7 @@ public class HighScore : MonoBehaviour
         }
     }
 
-    ///Our encryption function: http://wiki.unity3d.com/index.php?title=MD5
+    // Our encryption function: http://wiki.unity3d.com/index.php?title=MD5
     private string Md5Sum(string strToEncrypt)
     {
         System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
@@ -75,22 +75,22 @@ public class HighScore : MonoBehaviour
     void Error()
     {
         GetComponent<GUIText>().enabled = true;
-        GetComponent<GUIText>().text = "Connection error.";
+        GetComponent<GUIText>().text = "Connection error!";
         GetComponent<GUIText>().fontSize = (int)(GetComponent<GUIText>().fontSize * 0.6f);
     }
 
     ///Our IEnumerators
-    IEnumerator AddScore(string name, int score)
+    IEnumerator AddScore(int score)
     {
-        string hash = Md5Sum(name + score + privateKey);
+        // Create a hash with the score and privateKey; this will be checked in the AddScore.php
+        string hash = Md5Sum(score + privateKey);
 
-        WWW ScorePost = new WWW(AddScoreURL + "name=" + WWW.EscapeURL(name) + "&score=" + score + "&hash=" + hash); //Post our score
+        WWW ScorePost = new WWW(AddScoreURL + "score=" + score + "&hash=" + hash); //Post our score
         yield return ScorePost; // The function halts until the score is posted.
 
         if (ScorePost.error == null)
         {
-            print("Added score apaz");
-            StartCoroutine(GrabRank(name)); // If the post is successful, the rank gets grabbed next.
+            StartCoroutine(GrabRank()); // If the post is successful, the rank gets grabbed next.
         }
         else
         {
@@ -98,17 +98,14 @@ public class HighScore : MonoBehaviour
         }
     }
 
-    IEnumerator GrabRank(string name)
+    IEnumerator GrabRank()
     {
-        //Try and grab the Rank
-        WWW RankGrabAttempt = new WWW(RankURL + "name=" + WWW.EscapeURL(name));
-
+        WWW RankGrabAttempt = new WWW(RankURL);
         yield return RankGrabAttempt;
 
         if (RankGrabAttempt.error == null)
         {
-            print("Grabbed rank apaz");
-            rank = System.Int32.Parse(RankGrabAttempt.text); // Assign the rank to our variable. We could also use a TryParse and write an error dialogue.
+            rank = System.Int32.Parse(RankGrabAttempt.text); // Assign the rank to our variable.
             StartCoroutine(GetTopScores()); // Get our top scores
         }
         else
@@ -128,7 +125,6 @@ public class HighScore : MonoBehaviour
         }
         else
         {
-            print("Top scores apaz");
             //Collect up all our data
             string[] textlist = GetScoresAttempt.text.Split(new string[] { "\n", "\t" }, System.StringSplitOptions.RemoveEmptyEntries);
 
